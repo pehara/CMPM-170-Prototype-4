@@ -1,0 +1,708 @@
+fileFormatVersion: 2
+guid: 8f2b91908bd6ca240aafa2b551d86cc0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8736280598004618173
+    second: archaeology_game_art_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 30
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: archaeology_game_art_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1855
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db3d336cae08d3970800000000000000
+      internalID: 8736280598004618173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_1
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1855
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66d2a2e81d951c141bac7cca76e2c3dd
+      internalID: -2046769731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_2
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1855
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b1b3a07b3a74f24e88f5482fd4cb861
+      internalID: 950666844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_3
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1855
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65b82bf8f368bb64b9b2ee1b84010001
+      internalID: -141411274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_4
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 1855
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfd370443dcdc2b478e0f31d3658dfb6
+      internalID: 1096921063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1392
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b885142ab8820014c96a524df9cd0a93
+      internalID: 1530422039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_6
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1392
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98f2a05bab049584db1ea1397d866fee
+      internalID: 63637361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_7
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 1392
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ac5369ea00c9c943ac47f0e4a5fb05c
+      internalID: 2046081876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_8
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 1392
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b7c3e4534a835d428353494f1ae907c
+      internalID: 188932608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_9
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 1392
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2bbed6f83497334686e0147f1ed6ca6
+      internalID: 860560214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 929
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0710268610d6d0946b4476c204910a4e
+      internalID: -339278193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_11
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 929
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c214d3db255b8e439bead8de812e297
+      internalID: -1132281278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_12
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 929
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb4f302daea275a4b84e9391df479119
+      internalID: 682014486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_13
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 929
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1744bf0e351e14b40a58550062648370
+      internalID: 421111448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_14
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 929
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73f46daa54011d148b5b90ed17699275
+      internalID: -47879225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 466
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33189d8be5e871c48938f7040397a8bf
+      internalID: 2003680633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_16
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 466
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62555994d53fdc245a4e452e0c087957
+      internalID: 539820618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_17
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 466
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2363973eee9d8bb4a8c3eebf8d7b0c88
+      internalID: -1579864610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_18
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 466
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9a7411ea751d7843a6cfe41a5024fe1
+      internalID: -712363922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_19
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 466
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d37a717adade0634e9152cc1d9ba288a
+      internalID: 37622127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba58e81140d67564fbfa0e3587f44d29
+      internalID: 356404648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_21
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 3
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: edee794848543dd49ae0f3eda8298e38
+      internalID: -529428003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_22
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 3
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bda7452eb4575644cbaff894712c47dd
+      internalID: -158755313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_23
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 3
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed6cfe72d4d46cc4380035c67e2f2ba4
+      internalID: 1597271035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: archaeology_game_art_24
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 3
+        width: 600
+        height: 463
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2c07f518b437c54588d8303b1868430
+      internalID: 1831636464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: a01ea17e7f66cf0469c22d287ea42250
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      archaeology_game_art_0: 8736280598004618173
+      archaeology_game_art_1: -2046769731
+      archaeology_game_art_10: -339278193
+      archaeology_game_art_11: -1132281278
+      archaeology_game_art_12: 682014486
+      archaeology_game_art_13: 421111448
+      archaeology_game_art_14: -47879225
+      archaeology_game_art_15: 2003680633
+      archaeology_game_art_16: 539820618
+      archaeology_game_art_17: -1579864610
+      archaeology_game_art_18: -712363922
+      archaeology_game_art_19: 37622127
+      archaeology_game_art_2: 950666844
+      archaeology_game_art_20: 356404648
+      archaeology_game_art_21: -529428003
+      archaeology_game_art_22: -158755313
+      archaeology_game_art_23: 1597271035
+      archaeology_game_art_24: 1831636464
+      archaeology_game_art_3: -141411274
+      archaeology_game_art_4: 1096921063
+      archaeology_game_art_5: 1530422039
+      archaeology_game_art_6: 63637361
+      archaeology_game_art_7: 2046081876
+      archaeology_game_art_8: 188932608
+      archaeology_game_art_9: 860560214
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
