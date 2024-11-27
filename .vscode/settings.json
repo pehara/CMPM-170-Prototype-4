@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Archaeologist Game.sln"
+    "dotnet.defaultSolution": "CMPM-170-Prototype-4.sln"
 }
