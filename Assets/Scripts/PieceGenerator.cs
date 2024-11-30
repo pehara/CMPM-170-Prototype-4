@@ -107,11 +107,16 @@ public class PieceGenerator : MonoBehaviour
         orthoHeight -= pieceHeight;
         orthoWidth -= pieceWidth;
 
-        // place each piece randomly in the visible area
+        // place each piece randomly in the visible area, and randomize the rotation
         foreach (Transform piece in pieces) {
             float x = Random.Range(-orthoWidth, orthoWidth);
             float y = Random.Range(-orthoHeight, orthoHeight);
             piece.position = new Vector3(x, y, -1);
+
+            List<int> possibleAngles = new List<int>() {0, 90, -180, -90};
+            int z = possibleAngles[Random.Range(0, possibleAngles.Count - 1)];
+            Debug.Log(z);
+            piece.eulerAngles = new Vector3(0, 0, z);
         }
     }
 }
