@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8331903571314150889}
   - component: {fileID: 7332263841006875419}
   - component: {fileID: 9152252939495509442}
-  - component: {fileID: 8914133057365860303}
   - component: {fileID: 5775650664410646578}
   m_Layer: 0
   m_Name: Piece
@@ -88,19 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8914133057365860303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1239974538041893287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58858f46068ada44a95b9a2e17ccc2f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightColor: {r: 0.015686274, g: 1, b: 0.29988027, a: 1}
 --- !u!61 &5775650664410646578
 BoxCollider2D:
   m_ObjectHideFlags: 0

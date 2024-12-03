@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class PieceGenerator : MonoBehaviour
     [SerializeField] private int difficulty = 4;
     [SerializeField] private Texture2D puzzleTexture;
     [SerializeField] private Transform puzzlePieceHolder;
+    [SerializeField] private Object pieceManager;
     [SerializeField] private Transform piecePrefab;
 
     private List<Transform> pieces;
@@ -31,6 +33,10 @@ public class PieceGenerator : MonoBehaviour
 
         // scatter pieces randomly across visible screen
         ScatterPieces();
+
+
+        // Initialize pieces in PieceScript
+        pieceManager.GetComponent<PieceScript>().InitializePieces(pieces);
     }
 
 // Helper Functions --------------
