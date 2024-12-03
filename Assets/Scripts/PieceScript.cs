@@ -95,8 +95,8 @@ public class PieceScript : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit)
             {
-                rotation = hit.transform.eulerAngles.z;
-                hit.transform.eulerAngles = new Vector3(0, 0, rotation + 90);
+                Transform clickedPiece = hit.transform;
+                RotateGroup(clickedPiece, 90);
             }
         }
 
@@ -114,6 +114,38 @@ public class PieceScript : MonoBehaviour
                     }
                 }
                 Debug.Log(groupContents);
+            }
+        }
+    }
+
+    private void RotateGroup(Transform clickedPiece, float angle)
+    {
+        List<UnityEngine.Object> groupToRotate = null;
+
+        // Find the group that contains the clicked piece
+        foreach (var group in pieceGroups)
+        {
+            if (group.Contains(clickedPiece))
+            {
+                groupToRotate = group;
+                break;
+            }
+        }
+
+        if (groupToRotate == null) return;
+
+        Vector3 pivot = clickedPiece.position;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
+        // Rotate each piece in the group around the clicked piece
+        foreach (var groupPiece in groupToRotate)
+        {
+            if (groupPiece is Transform pieceTransform)
+            {
+                Vector3 direction = pieceTransform.position - pivot;
+                direction = rotation * direction;
+                pieceTransform.position = pivot + direction;
+                pieceTransform.Rotate(Vector3.forward, angle);
             }
         }
     }
@@ -198,17 +230,12 @@ public class PieceScript : MonoBehaviour
             currentGroup = new List<UnityEngine.Object> { piece };
             pieceGroups.Add(currentGroup);
         }
-        //else 
-        //{ 
-        //    currentGroup.Add(piece); 
-        //}
 
         foreach (var group in groupsToMerge)
         {
             currentGroup.AddRange(group);
             pieceGroups.Remove(group);
         }
-
     }
 
     private string GetTouchingSide(Transform piece1, Transform piece2, float pieceWidth, float pieceHeight, float tolerance = 0.1f)
