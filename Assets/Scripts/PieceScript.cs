@@ -39,19 +39,6 @@ public class PieceScript : MonoBehaviour
             }
         }
 
-        // Print the contents of pieceGroups
-        foreach (var group in pieceGroups)
-        {
-            string groupContents = "Group: ";
-            foreach (var piece in group)
-            {
-                if (piece is Transform pieceTransform)
-                {
-                    groupContents += pieceTransform.name + " ";
-                }
-            }
-            Debug.Log(groupContents);
-        }
     }
 
     void Update()
@@ -112,6 +99,23 @@ public class PieceScript : MonoBehaviour
                 hit.transform.eulerAngles = new Vector3(0, 0, rotation + 90);
             }
         }
+
+        if (Input.GetMouseButtonDown(2))
+        {
+            // Print the contents of pieceGroups
+            foreach (var group in pieceGroups)
+            {
+                string groupContents = "Group: ";
+                foreach (var piece in group)
+                {
+                    if (piece is Transform pieceTransform)
+                    {
+                        groupContents += pieceTransform.name + " ";
+                    }
+                }
+                Debug.Log(groupContents);
+            }
+        }
     }
 
     private void DragPiece()
@@ -150,6 +154,17 @@ public class PieceScript : MonoBehaviour
 
         List<UnityEngine.Object> currentGroup = null;
         List<List<UnityEngine.Object>> groupsToMerge = new List<List<UnityEngine.Object>>();
+        List<UnityEngine.Object> pieceGroup = null;
+
+        // Find the group that contains the piece
+        foreach (var group in pieceGroups)
+        {
+            if (group.Contains(piece))
+            {
+                pieceGroup = group;
+                break;
+            }
+        }
 
         foreach (var group in pieceGroups)
         {
@@ -160,6 +175,11 @@ public class PieceScript : MonoBehaviour
                     string side = GetTouchingSide(piece, groupPieceTransform, pieceWidth, pieceHeight, tolerance);
                     if (side != "None")
                     {
+                        // if not part of the same group, align
+                        if (pieceGroup != null && !pieceGroup.Contains(groupPieceTransform))
+                        {
+                            AlignPiece(piece, groupPieceTransform, side, pieceGroup);
+                        }
                         if (currentGroup == null)
                         {
                             currentGroup = group;
@@ -168,7 +188,6 @@ public class PieceScript : MonoBehaviour
                         {
                             groupsToMerge.Add(group);
                         }
-
                     }
                 }
             }
@@ -179,6 +198,10 @@ public class PieceScript : MonoBehaviour
             currentGroup = new List<UnityEngine.Object> { piece };
             pieceGroups.Add(currentGroup);
         }
+        //else 
+        //{ 
+        //    currentGroup.Add(piece); 
+        //}
 
         foreach (var group in groupsToMerge)
         {
@@ -223,6 +246,43 @@ public class PieceScript : MonoBehaviour
         return "None";
     }
 
+    private void AlignPiece(Transform piece, Transform otherPiece, string side, List<UnityEngine.Object> group)
+    {
+        //Debug.Log("Aligning pieces");
+        float pieceWidth = piece.GetComponent<Renderer>().bounds.size.x;
+        float pieceHeight = piece.GetComponent<Renderer>().bounds.size.y;
+        Vector3 pos1 = piece.position;
+        Vector3 pos2 = otherPiece.position;
+        Vector3 offset = Vector3.zero;
 
+        switch (side)
+        {
+            case "Left":
+                offset = new Vector3(pos2.x + pieceWidth - pos1.x, pos2.y - pos1.y, 0);
+                piece.position = new Vector3(pos2.x + pieceWidth, pos2.y, pos1.z);
+                break;
+            case "Right":
+                offset = new Vector3(pos2.x - pieceWidth - pos1.x, pos2.y - pos1.y, 0);
+                piece.position = new Vector3(pos2.x - pieceWidth, pos2.y, pos1.z);
+                break;
+            case "Top":
+                offset = new Vector3(pos2.x - pos1.x, pos2.y - pieceHeight - pos1.y, 0);
+                piece.position = new Vector3(pos2.x, pos2.y - pieceHeight, pos1.z);
+                break;
+            case "Bottom":
+                offset = new Vector3(pos2.x - pos1.x, pos2.y + pieceHeight - pos1.y, 0);
+                piece.position = new Vector3(pos2.x, pos2.y + pieceHeight, pos1.z);
+                break;
+        }
+
+        // Apply the same offset to all pieces in the group
+        foreach (var groupPiece in group)
+        {
+            if (groupPiece is Transform groupPieceTransform && groupPieceTransform != piece)
+            {
+                groupPieceTransform.position += offset;
+            }
+        }
+    }
 
 }
