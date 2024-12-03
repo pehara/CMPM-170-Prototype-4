@@ -14,7 +14,7 @@ public class PieceScript : MonoBehaviour
 
     void Start()
     {
-        // get first piece and keep track of its z value
+        // Just in case pieces go too far from camera
         initialZ = -0.117f;
     }
 
@@ -52,7 +52,7 @@ public class PieceScript : MonoBehaviour
                 offset = draggingPiece.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 offset += Vector3.back;
 
-                // Calculate initial offsets for the group
+                // Calculate initial offsets for the group when dragging one piece
                 initialGroupOffsets.Clear();
                 bool foundGroup = false;
                 foreach (var group in pieceGroups)
@@ -135,8 +135,6 @@ public class PieceScript : MonoBehaviour
         }
     }
 
-
-
     private float NormalizeAngle(float angle)
     {
         angle = angle % 360;
@@ -147,6 +145,7 @@ public class PieceScript : MonoBehaviour
         return angle;
     }
 
+    // unused but here just in case we want to rotate the group (doesnt work fully though)
     private void RotateGroup(Transform clickedPiece, float angle)
     {
         List<UnityEngine.Object> groupToRotate = null;
@@ -184,8 +183,6 @@ public class PieceScript : MonoBehaviour
         Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         newPosition += offset;
 
-        //Debug.Log("Dragging piece to new position: " + newPosition);
-
         // Update positions of all pieces in the group
         foreach (var group in pieceGroups)
         {
@@ -197,7 +194,6 @@ public class PieceScript : MonoBehaviour
                     {
                         Vector3 newPiecePosition = newPosition + initialGroupOffsets[i];
                         newPiecePosition.z = initialZ;
-                        //Debug.Log($"Updating piece {piece.name} to position {newPiecePosition}");
                         piece.position = newPiecePosition;
                     }
                 }
@@ -221,19 +217,14 @@ public class PieceScript : MonoBehaviour
         int row2 = index2 / width;
         int col2 = index2 % width;
 
-        Debug.Log("Rotations: Piece Name: " + piece1.name + " Rotation: " + piece1.eulerAngles.z);
-        Debug.Log("Rotations: Piece Name: " + piece2.name + " Rotation: " + piece2.eulerAngles.z);
-        // check if the pieces are adjacent
-        //bool areAdjacent = (Mathf.Abs(row1 - row2) == 1 && col1 == col2) || (Mathf.Abs(col1 - col2) == 1 && row1 == row2);
-
         // Check if the rotation is 0
         bool sameRotation = Mathf.Approximately(piece1.eulerAngles.z, piece2.eulerAngles.z) && Mathf.Approximately(piece1.eulerAngles.z, 0);
-        //if (piece1.eulerAngles.z != piece2.eulerAngles.z)
         if (!sameRotation)
         {
             return "None";
         }
 
+        // check which side the piece is supposed to be touching
         bool isLeft = (col1 == col2 + 1) && (row1 == row2);
         bool isRight = (col1 == col2 - 1) && (row1 == row2);
         bool isTop = (row1 == row2 - 1) && (col1 == col2);
@@ -242,7 +233,6 @@ public class PieceScript : MonoBehaviour
         if (isLeft)
         {
             return "Left";
-            //&& sameRotation;
         }
         else if (isRight)
         {
@@ -261,10 +251,9 @@ public class PieceScript : MonoBehaviour
 
     private void checkPiecePlacement(Transform piece)
     {
-        //Debug.Log("Checking piece placement");
         float pieceWidth = piece.GetComponent<Renderer>().bounds.size.x;
         float pieceHeight = piece.GetComponent<Renderer>().bounds.size.y;
-        float tolerance = 0.1f; // Adjust this value as needed
+        float tolerance = 0.1f;
 
         List<UnityEngine.Object> currentGroup = null;
         List<List<UnityEngine.Object>> groupsToMerge = new List<List<UnityEngine.Object>>();
@@ -291,7 +280,6 @@ public class PieceScript : MonoBehaviour
                     {
                         if (side != AreCorrectNeighbors(piece, groupPieceTransform))
                         {
-                            //Debug.Log("Not correct neighbors");
                             continue;
                         }
                         // if not part of the same group, align
@@ -301,12 +289,10 @@ public class PieceScript : MonoBehaviour
                         }
                         if (currentGroup == null)
                         {
-                            //Debug.Log("no current group");
                             currentGroup = group;
                         }
                         else if (currentGroup != group)
                         {
-                            //Debug.Log("current group is not the same");
                             groupsToMerge.Add(group);
                         }
                     }
@@ -322,7 +308,13 @@ public class PieceScript : MonoBehaviour
 
         foreach (var group in groupsToMerge)
         {
-            currentGroup.AddRange(group);
+            foreach (var groupPiece in group)
+            {
+                if (!currentGroup.Contains(groupPiece))
+                {
+                    currentGroup.Add(groupPiece);
+                }
+            }
             pieceGroups.Remove(group);
         }
 
@@ -335,7 +327,6 @@ public class PieceScript : MonoBehaviour
 
     private string GetTouchingSide(Transform piece1, Transform piece2, float pieceWidth, float pieceHeight, float tolerance = 0.1f)
     {
-        //Debug.Log("Checking touching side");
         Vector3 pos1 = piece1.position;
         Vector3 pos2 = piece2.position;
 
@@ -384,7 +375,7 @@ public class PieceScript : MonoBehaviour
                 piece.position = new Vector3(pos2.x + pieceWidth, pos2.y, pos1.z);
                 break;
             case "Right":
-                offset = new Vector3(pos2.x - pieceWidth - pos1.x, pos2.y - pos1.y, 0);
+                offset = new Vector3((pos2.x - pieceWidth - pos1.x), (pos2.y - pos1.y), 0);
                 piece.position = new Vector3(pos2.x - pieceWidth, pos2.y, pos1.z);
                 break;
             case "Top":
@@ -402,7 +393,8 @@ public class PieceScript : MonoBehaviour
         {
             if (groupPiece is Transform groupPieceTransform && groupPieceTransform != piece)
             {
-                groupPieceTransform.position += offset;
+                // is too buggy, sometimes works well, other times the pieces get teleported far away
+                //groupPieceTransform.position += offset;
             }
         }
     }
