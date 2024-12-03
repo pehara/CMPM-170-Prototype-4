@@ -256,8 +256,8 @@ public class PieceScript : MonoBehaviour
         float tolerance = 0.1f;
 
         List<UnityEngine.Object> currentGroup = null;
-        List<List<UnityEngine.Object>> groupsToMerge = new List<List<UnityEngine.Object>>();
         List<UnityEngine.Object> pieceGroup = null;
+        List<List<UnityEngine.Object>> groupsToMerge = new List<List<UnityEngine.Object>>();
 
         // Find the group that contains the piece
         foreach (var group in pieceGroups)
@@ -294,9 +294,35 @@ public class PieceScript : MonoBehaviour
                         else if (currentGroup != group)
                         {
                             groupsToMerge.Add(group);
+                            foreach (var group1 in groupsToMerge)
+                            {
+                                foreach (var groupPiece2 in group1)
+                                {
+                                    if (!currentGroup.Contains(groupPiece))
+                                    {
+                                        currentGroup.Add(groupPiece2);
+                                    }
+                                }
+                                pieceGroups.Remove(group);
+                            }
+
+                            //// Merge with the first group found and break out of the loop
+                            //foreach (var groupPieceToMerge in group)
+                            //{
+                            //    if (!currentGroup.Contains(groupPieceToMerge))
+                            //    {
+                            //        currentGroup.Add(groupPieceToMerge);
+                            //    }
+                            //}
+                            //pieceGroups.Remove(group);
+                            break;
                         }
                     }
                 }
+            }
+            if (currentGroup != null && currentGroup != group)
+            {
+                break;
             }
         }
 
@@ -306,23 +332,36 @@ public class PieceScript : MonoBehaviour
             pieceGroups.Add(currentGroup);
         }
 
-        foreach (var group in groupsToMerge)
-        {
-            foreach (var groupPiece in group)
-            {
-                if (!currentGroup.Contains(groupPiece))
-                {
-                    currentGroup.Add(groupPiece);
-                }
-            }
-            pieceGroups.Remove(group);
-        }
-
         // Ensure the piece is added to the current group if it was not already part of it
         if (!currentGroup.Contains(piece))
         {
             currentGroup.Add(piece);
         }
+
+        CleanupGroups();
+    }
+
+    private void CleanupGroups()
+    {
+        HashSet<UnityEngine.Object> seenPieces = new HashSet<UnityEngine.Object>();
+
+        foreach (var group in pieceGroups)
+        {
+            for (int i = group.Count - 1; i >= 0; i--)
+            {
+                if (seenPieces.Contains(group[i]))
+                {
+                    group.RemoveAt(i);
+                }
+                else
+                {
+                    seenPieces.Add(group[i]);
+                }
+            }
+        }
+
+        // Remove empty groups
+        pieceGroups.RemoveAll(group => group.Count == 0);
     }
 
     private string GetTouchingSide(Transform piece1, Transform piece2, float pieceWidth, float pieceHeight, float tolerance = 0.1f)
