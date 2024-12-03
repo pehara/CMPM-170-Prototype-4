@@ -95,8 +95,25 @@ public class PieceScript : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit)
             {
-                Transform clickedPiece = hit.transform;
-                RotateGroup(clickedPiece, 90);
+                // only rotate if the piece is not part of a group
+                bool isPartOfGroup = false;
+                foreach (var group in pieceGroups)
+                {
+                    // if group is more than just the piece by itself
+                    if (group.Contains(hit.transform) && group.Count > 1)
+                    {
+                        isPartOfGroup = true;
+                        break;
+                    }
+                }
+                if (isPartOfGroup) {
+                    return;
+                }
+                rotation = hit.transform.eulerAngles.z;
+                hit.transform.eulerAngles = new Vector3(0, 0, NormalizeAngle(rotation + 90));
+
+                //Transform clickedPiece = hit.transform;
+                //RotateGroup(clickedPiece, 90);
             }
         }
 
@@ -116,6 +133,18 @@ public class PieceScript : MonoBehaviour
                 Debug.Log(groupContents);
             }
         }
+    }
+
+
+
+    private float NormalizeAngle(float angle)
+    {
+        angle = angle % 360;
+        if (angle < 0)
+        {
+            angle += 360;
+        }
+        return angle;
     }
 
     private void RotateGroup(Transform clickedPiece, float angle)
@@ -177,6 +206,59 @@ public class PieceScript : MonoBehaviour
         }
     }
 
+    private string AreCorrectNeighbors(Transform piece1, Transform piece2)
+    {
+        // Assuming piece names are in the format "Piece X" where X is the piece index
+        int index1 = int.Parse(piece1.name.Split(' ')[1]);
+        int index2 = int.Parse(piece2.name.Split(' ')[1]);
+
+        int width = 5; // Number of pieces in a row
+        //int height = 4; // Number of pieces in a column
+
+        // Calculate row and column for each piece
+        int row1 = index1 / width;
+        int col1 = index1 % width;
+        int row2 = index2 / width;
+        int col2 = index2 % width;
+
+        Debug.Log("Rotations: Piece Name: " + piece1.name + " Rotation: " + piece1.eulerAngles.z);
+        Debug.Log("Rotations: Piece Name: " + piece2.name + " Rotation: " + piece2.eulerAngles.z);
+        // check if the pieces are adjacent
+        //bool areAdjacent = (Mathf.Abs(row1 - row2) == 1 && col1 == col2) || (Mathf.Abs(col1 - col2) == 1 && row1 == row2);
+
+        // Check if the rotation is 0
+        bool sameRotation = Mathf.Approximately(piece1.eulerAngles.z, piece2.eulerAngles.z) && Mathf.Approximately(piece1.eulerAngles.z, 0);
+        //if (piece1.eulerAngles.z != piece2.eulerAngles.z)
+        if (!sameRotation)
+        {
+            return "None";
+        }
+
+        bool isLeft = (col1 == col2 + 1) && (row1 == row2);
+        bool isRight = (col1 == col2 - 1) && (row1 == row2);
+        bool isTop = (row1 == row2 - 1) && (col1 == col2);
+        bool isBottom = (row1 == row2 + 1) && (col1 == col2);
+
+        if (isLeft)
+        {
+            return "Left";
+            //&& sameRotation;
+        }
+        else if (isRight)
+        {
+            return "Right";
+        }
+        else if (isTop)
+        {
+            return "Top";
+        }
+        else if (isBottom)
+        {
+            return "Bottom";
+        }
+        return "None";
+    }
+
     private void checkPiecePlacement(Transform piece)
     {
         //Debug.Log("Checking piece placement");
@@ -207,6 +289,11 @@ public class PieceScript : MonoBehaviour
                     string side = GetTouchingSide(piece, groupPieceTransform, pieceWidth, pieceHeight, tolerance);
                     if (side != "None")
                     {
+                        if (side != AreCorrectNeighbors(piece, groupPieceTransform))
+                        {
+                            //Debug.Log("Not correct neighbors");
+                            continue;
+                        }
                         // if not part of the same group, align
                         if (pieceGroup != null && !pieceGroup.Contains(groupPieceTransform))
                         {
@@ -214,10 +301,12 @@ public class PieceScript : MonoBehaviour
                         }
                         if (currentGroup == null)
                         {
+                            //Debug.Log("no current group");
                             currentGroup = group;
                         }
                         else if (currentGroup != group)
                         {
+                            //Debug.Log("current group is not the same");
                             groupsToMerge.Add(group);
                         }
                     }
@@ -235,6 +324,12 @@ public class PieceScript : MonoBehaviour
         {
             currentGroup.AddRange(group);
             pieceGroups.Remove(group);
+        }
+
+        // Ensure the piece is added to the current group if it was not already part of it
+        if (!currentGroup.Contains(piece))
+        {
+            currentGroup.Add(piece);
         }
     }
 
