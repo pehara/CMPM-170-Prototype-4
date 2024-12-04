@@ -294,34 +294,32 @@ public class PieceScript : MonoBehaviour
                         else if (currentGroup != group)
                         {
                             groupsToMerge.Add(group);
+                            // Merge groups
                             foreach (var group1 in groupsToMerge)
                             {
-                                foreach (var groupPiece2 in group1)
+                                foreach (var groupPiece1 in group1)
                                 {
-                                    if (!currentGroup.Contains(groupPiece))
+                                    if (!currentGroup.Contains(groupPiece1))
                                     {
-                                        currentGroup.Add(groupPiece2);
+                                        currentGroup.Add(groupPiece1);
                                     }
                                 }
-                                pieceGroups.Remove(group);
+                                pieceGroups.Remove(group1);
                             }
-
-                            //// Merge with the first group found and break out of the loop
-                            //foreach (var groupPieceToMerge in group)
-                            //{
-                            //    if (!currentGroup.Contains(groupPieceToMerge))
-                            //    {
-                            //        currentGroup.Add(groupPieceToMerge);
-                            //    }
-                            //}
-                            //pieceGroups.Remove(group);
                             break;
                         }
                     }
                 }
             }
+            // if groupsToMerge is not empty, we have already merged the groups
+            if (groupsToMerge.Count > 0)
+            {
+                Debug.Log("Merged groups");
+                break;
+            }
             if (currentGroup != null && currentGroup != group)
             {
+                Debug.Log("Found a group to merge");
                 break;
             }
         }
@@ -332,10 +330,24 @@ public class PieceScript : MonoBehaviour
             pieceGroups.Add(currentGroup);
         }
 
+
         // Ensure the piece is added to the current group if it was not already part of it
         if (!currentGroup.Contains(piece))
         {
             currentGroup.Add(piece);
+        }
+
+        // Move all pieces from pieceGroup to currentGroup if they are different
+        if (pieceGroup != null && pieceGroup != currentGroup)
+        {
+            foreach (var groupPiece in pieceGroup)
+            {
+                if (!currentGroup.Contains(groupPiece))
+                {
+                    currentGroup.Add(groupPiece);
+                }
+            }
+            pieceGroups.Remove(pieceGroup);
         }
 
         CleanupGroups();
@@ -433,7 +445,7 @@ public class PieceScript : MonoBehaviour
             if (groupPiece is Transform groupPieceTransform && groupPieceTransform != piece)
             {
                 // is too buggy, sometimes works well, other times the pieces get teleported far away
-                //groupPieceTransform.position += offset;
+                groupPieceTransform.position += offset;
             }
         }
     }
