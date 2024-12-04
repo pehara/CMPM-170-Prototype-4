@@ -115,7 +115,6 @@ public class PieceGenerator : MonoBehaviour
 
             List<int> possibleAngles = new List<int>() {0, 90, -180, -90};
             int z = possibleAngles[Random.Range(0, possibleAngles.Count - 1)];
-            Debug.Log(z);
             piece.eulerAngles = new Vector3(0, 0, z);
         }
     }
