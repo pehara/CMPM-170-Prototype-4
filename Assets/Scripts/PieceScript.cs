@@ -46,7 +46,7 @@ public class PieceScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (hit)
+            if (hit && hit.transform.tag != "Rock")
             {
                 draggingPiece = hit.transform;
                 offset = draggingPiece.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -90,10 +90,10 @@ public class PieceScript : MonoBehaviour
             DragPiece();
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (hit)
+            if (hit && hit.transform.tag != "Rock")
             {
                 // only rotate if the piece is not part of a group
                 bool isPartOfGroup = false;
@@ -106,7 +106,8 @@ public class PieceScript : MonoBehaviour
                         break;
                     }
                 }
-                if (isPartOfGroup) {
+                if (isPartOfGroup)
+                {
                     return;
                 }
                 rotation = hit.transform.eulerAngles.z;
@@ -114,6 +115,30 @@ public class PieceScript : MonoBehaviour
 
                 //Transform clickedPiece = hit.transform;
                 //RotateGroup(clickedPiece, 90);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            if (hit && hit.transform.tag != "Rock")
+            {
+                bool isPartOfGroup = false;
+                foreach (var group in pieceGroups)
+                {
+                    // if group is more than just the piece by itself
+                    if (group.Contains(hit.transform) && group.Count > 1)
+                    {
+                        isPartOfGroup = true;
+                        break;
+                    }
+                }
+                if (isPartOfGroup)
+                {
+                    return;
+                }
+                rotation = hit.transform.eulerAngles.z;
+                hit.transform.eulerAngles = new Vector3(0, 0, NormalizeAngle(rotation - 90));
             }
         }
 
@@ -134,7 +159,6 @@ public class PieceScript : MonoBehaviour
             }
         }
     }
-
     private float NormalizeAngle(float angle)
     {
         angle = angle % 360;
@@ -444,7 +468,6 @@ public class PieceScript : MonoBehaviour
         {
             if (groupPiece is Transform groupPieceTransform && groupPieceTransform != piece)
             {
-                // is too buggy, sometimes works well, other times the pieces get teleported far away
                 groupPieceTransform.position += offset;
             }
         }
