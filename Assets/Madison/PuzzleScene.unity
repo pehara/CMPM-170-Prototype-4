@@ -621,8 +621,8 @@ MonoBehaviour:
   - {fileID: 7331315201791160908, guid: f66a3d3494dffc3498bd0f7e06b2adf4, type: 3}
   - {fileID: 8476764939301271271, guid: e5b3c71262bf39547807d94f8bc28136, type: 3}
   - {fileID: -1027316089336844762, guid: 1fed62f515eb75e49944f835afa15759, type: 3}
-  minRocks: 5
-  maxRocks: 20
+  minRocks: 1
+  maxRocks: 2
 --- !u!1 &1930070050
 GameObject:
   m_ObjectHideFlags: 0

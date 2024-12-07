@@ -15,7 +15,7 @@ public class PieceScript : MonoBehaviour
     void Start()
     {
         // Just in case pieces go too far from camera
-        initialZ = -0.117f;
+        initialZ = -1.117f;
     }
 
     public void InitializePieces(List<Transform> pieces)
@@ -65,6 +65,7 @@ public class PieceScript : MonoBehaviour
                             if (piece is Transform pieceTransform)
                             {
                                 initialGroupOffsets.Add(pieceTransform.position - new Vector3(draggingPiece.position.x, draggingPiece.position.y, 0));
+                                pieceTransform.position += Vector3.back;
                             }
                         }
                         break;
@@ -79,8 +80,27 @@ public class PieceScript : MonoBehaviour
 
         if (draggingPiece && Input.GetMouseButtonUp(0))
         {
-            draggingPiece.position += Vector3.forward;
+            //draggingPiece.position += Vector3.forward;
             draggingPiece.position = new Vector3(draggingPiece.position.x, draggingPiece.position.y, initialZ);
+            // move rest of group back to initialZ
+            foreach (var group in pieceGroups)
+            {
+                if (group.Contains(draggingPiece))
+                {
+                    foreach (var piece in group)
+                    {
+                        if (piece is Transform pieceTransform)
+                        {
+                            if (pieceTransform != draggingPiece)
+                            {
+                                //pieceTransform.position += Vector3.forward;
+                                pieceTransform.position = new Vector3(pieceTransform.position.x, pieceTransform.position.y, initialZ);
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
             checkPiecePlacement(draggingPiece);
             draggingPiece = null;
         }
@@ -142,7 +162,7 @@ public class PieceScript : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(2))
+        if (Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space))
         {
             // Print the contents of pieceGroups
             foreach (var group in pieceGroups)
@@ -217,8 +237,9 @@ public class PieceScript : MonoBehaviour
                     if (group[i] is Transform piece)
                     {
                         Vector3 newPiecePosition = newPosition + initialGroupOffsets[i];
-                        newPiecePosition.z = initialZ;
+                        //newPiecePosition.z = initialZ;
                         piece.position = newPiecePosition;
+                        //piece.position += Vector3.back;
                     }
                 }
                 break;
@@ -352,13 +373,6 @@ public class PieceScript : MonoBehaviour
         {
             currentGroup = new List<UnityEngine.Object> { piece };
             pieceGroups.Add(currentGroup);
-        }
-
-
-        // Ensure the piece is added to the current group if it was not already part of it
-        if (!currentGroup.Contains(piece))
-        {
-            currentGroup.Add(piece);
         }
 
         // Move all pieces from pieceGroup to currentGroup if they are different
