@@ -4,6 +4,7 @@ public class RockGenerator : MonoBehaviour
 {
     // Rock prefab to instantiate
     public GameObject rockPrefab;
+    public GameObject trashIcon;
     public Sprite[] rockSprites;
 
     // Minimum and maximum number of rocks to generate
@@ -33,6 +34,11 @@ public class RockGenerator : MonoBehaviour
 
                 // Instantiate the rock at the random position
                 GameObject rock = Instantiate(rockPrefab, worldPosition, Quaternion.identity);
+
+                RockScript rockScript = rock.GetComponent<RockScript>(); if (rockScript != null)
+                {
+                    rockScript.trashIcon = trashIcon;
+                }
 
                 SpriteRenderer spriteRenderer = rock.GetComponent<SpriteRenderer>();
                 spriteRenderer.sprite = rockSprites[Random.Range(0, rockSprites.Length)];

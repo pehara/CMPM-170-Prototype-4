@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RockScript : MonoBehaviour
 {
     private Vector3 offset;
     private bool isDragging = false;
-    //public Material[] rockMaterials;
+    public GameObject trashIcon; // Reference to the trash icon game object
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,7 +17,14 @@ public class RockScript : MonoBehaviour
         List<Vector2> physicsShape = new List<Vector2>();
         spriteRenderer.sprite.GetPhysicsShape(0, physicsShape);
         collider.SetPath(0, physicsShape.ToArray());
+
+        // Ensure the trash icon is initially hidden
+        if (trashIcon != null)
+        {
+            trashIcon.SetActive(false);
+        }
     }
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -27,12 +35,27 @@ public class RockScript : MonoBehaviour
                 isDragging = true;
                 offset = transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 offset += Vector3.back * 0.1f;
+
+                // Show the trash icon when dragging starts
+                if (trashIcon != null)
+                {
+                    trashIcon.SetActive(true);
+                }
             }
         }
         if (isDragging && Input.GetMouseButtonUp(0))
         {
             transform.position += Vector3.forward * 0.1f;
             isDragging = false;
+
+            // Check if the rock is dropped in top right corner
+            var viewportPos = Camera.main.WorldToViewportPoint(transform.position);
+            if (viewportPos.x > 0.85 && viewportPos.y > 0.85)
+            {
+                Destroy(gameObject);
+            }
+            // Hide the trash icon when dragging stops
+            trashIcon.SetActive(false);
         }
         if (isDragging)
         {
@@ -40,6 +63,5 @@ public class RockScript : MonoBehaviour
             newPosition += offset;
             transform.position = newPosition;
         }
-
     }
 }

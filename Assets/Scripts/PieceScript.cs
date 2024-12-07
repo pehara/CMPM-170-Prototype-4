@@ -244,7 +244,6 @@ public class PieceScript : MonoBehaviour
 
         List<UnityEngine.Object> currentGroup = null;
         List<UnityEngine.Object> pieceGroup = GetGroupContainingPiece(piece);
-        //List<List<UnityEngine.Object>> groupsToMerge = new List<List<UnityEngine.Object>>();
         bool foundGroupToMerge = false;
 
         foreach (var group in pieceGroups)
@@ -260,10 +259,7 @@ public class PieceScript : MonoBehaviour
                         {
                             continue;
                         }
-                        // print name of the piece that has been placed
-                        Debug.Log("Piece placed: " + piece.name);
-                        // print name of the piece that it is touching
-                        Debug.Log("Piece touching: " + groupPieceTransform.name);
+
                         // if not part of the same group, align
                         if (pieceGroup != null && !pieceGroup.Contains(groupPieceTransform))
                         {
@@ -290,7 +286,6 @@ public class PieceScript : MonoBehaviour
                 }
             }
             // if groupsToMerge is not empty, we have already merged the groups
-            //if (groupsToMerge.Count > 0)
             if (foundGroupToMerge)
             {
                 Debug.Log("Merged groups");
