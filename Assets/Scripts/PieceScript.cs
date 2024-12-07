@@ -23,22 +23,11 @@ public class PieceScript : MonoBehaviour
         // Ensure each piece is part of a group
         foreach (Transform piece in pieces)
         {
-            bool isInGroup = false;
-            foreach (var group in pieceGroups)
-            {
-                if (group.Contains(piece))
-                {
-                    isInGroup = true;
-                    break;
-                }
-            }
-
-            if (!isInGroup)
+            if (!IsPieceInAnyGroup(piece))
             {
                 pieceGroups.Add(new List<UnityEngine.Object> { piece });
             }
         }
-
     }
 
     void Update()
@@ -54,24 +43,19 @@ public class PieceScript : MonoBehaviour
 
                 // Calculate initial offsets for the group when dragging one piece
                 initialGroupOffsets.Clear();
-                bool foundGroup = false;
-                foreach (var group in pieceGroups)
+                var group = GetGroupContainingPiece(draggingPiece);
+                if (group != null)
                 {
-                    if (group.Contains(draggingPiece))
+                    foreach (var piece in group)
                     {
-                        foundGroup = true;
-                        foreach (var piece in group)
+                        if (piece is Transform pieceTransform)
                         {
-                            if (piece is Transform pieceTransform)
-                            {
-                                initialGroupOffsets.Add(pieceTransform.position - new Vector3(draggingPiece.position.x, draggingPiece.position.y, 0));
-                                pieceTransform.position += Vector3.back;
-                            }
+                            initialGroupOffsets.Add(pieceTransform.position - new Vector3(draggingPiece.position.x, draggingPiece.position.y, 0));
+                            pieceTransform.position += Vector3.back;
                         }
-                        break;
                     }
                 }
-                if (!foundGroup)
+                else
                 {
                     Debug.LogWarning("Dragging piece not found in any group");
                 }
@@ -80,25 +64,16 @@ public class PieceScript : MonoBehaviour
 
         if (draggingPiece && Input.GetMouseButtonUp(0))
         {
-            //draggingPiece.position += Vector3.forward;
             draggingPiece.position = new Vector3(draggingPiece.position.x, draggingPiece.position.y, initialZ);
-            // move rest of group back to initialZ
-            foreach (var group in pieceGroups)
+            var group = GetGroupContainingPiece(draggingPiece);
+            if (group != null)
             {
-                if (group.Contains(draggingPiece))
+                foreach (var piece in group)
                 {
-                    foreach (var piece in group)
+                    if (piece is Transform pieceTransform && pieceTransform != draggingPiece)
                     {
-                        if (piece is Transform pieceTransform)
-                        {
-                            if (pieceTransform != draggingPiece)
-                            {
-                                //pieceTransform.position += Vector3.forward;
-                                pieceTransform.position = new Vector3(pieceTransform.position.x, pieceTransform.position.y, initialZ);
-                            }
-                        }
+                        pieceTransform.position = new Vector3(pieceTransform.position.x, pieceTransform.position.y, initialZ);
                     }
-                    break;
                 }
             }
             checkPiecePlacement(draggingPiece);
@@ -115,26 +90,12 @@ public class PieceScript : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit && hit.transform.tag != "Rock")
             {
-                // only rotate if the piece is not part of a group
-                bool isPartOfGroup = false;
-                foreach (var group in pieceGroups)
-                {
-                    // if group is more than just the piece by itself
-                    if (group.Contains(hit.transform) && group.Count > 1)
-                    {
-                        isPartOfGroup = true;
-                        break;
-                    }
-                }
-                if (isPartOfGroup)
+                if (IsPieceInGroupWithMoreThanOne(hit.transform))
                 {
                     return;
                 }
                 rotation = hit.transform.eulerAngles.z;
                 hit.transform.eulerAngles = new Vector3(0, 0, NormalizeAngle(rotation + 90));
-
-                //Transform clickedPiece = hit.transform;
-                //RotateGroup(clickedPiece, 90);
             }
         }
 
@@ -143,17 +104,7 @@ public class PieceScript : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit && hit.transform.tag != "Rock")
             {
-                bool isPartOfGroup = false;
-                foreach (var group in pieceGroups)
-                {
-                    // if group is more than just the piece by itself
-                    if (group.Contains(hit.transform) && group.Count > 1)
-                    {
-                        isPartOfGroup = true;
-                        break;
-                    }
-                }
-                if (isPartOfGroup)
+                if (IsPieceInGroupWithMoreThanOne(hit.transform))
                 {
                     return;
                 }
@@ -189,37 +140,34 @@ public class PieceScript : MonoBehaviour
         return angle;
     }
 
-    // unused but here just in case we want to rotate the group (doesnt work fully though)
-    private void RotateGroup(Transform clickedPiece, float angle)
+    private bool IsPieceInAnyGroup(Transform piece)
     {
-        List<UnityEngine.Object> groupToRotate = null;
-
-        // Find the group that contains the clicked piece
         foreach (var group in pieceGroups)
         {
-            if (group.Contains(clickedPiece))
+            if (group.Contains(piece))
             {
-                groupToRotate = group;
-                break;
+                return true;
             }
         }
+        return false;
+    }
 
-        if (groupToRotate == null) return;
-
-        Vector3 pivot = clickedPiece.position;
-        Quaternion rotation = Quaternion.Euler(0, 0, angle);
-
-        // Rotate each piece in the group around the clicked piece
-        foreach (var groupPiece in groupToRotate)
+    private List<UnityEngine.Object> GetGroupContainingPiece(Transform piece)
+    {
+        foreach (var group in pieceGroups)
         {
-            if (groupPiece is Transform pieceTransform)
+            if (group.Contains(piece))
             {
-                Vector3 direction = pieceTransform.position - pivot;
-                direction = rotation * direction;
-                pieceTransform.position = pivot + direction;
-                pieceTransform.Rotate(Vector3.forward, angle);
+                return group;
             }
         }
+        return null;
+    }
+
+    private bool IsPieceInGroupWithMoreThanOne(Transform piece)
+    {
+        var group = GetGroupContainingPiece(piece);
+        return group != null && group.Count > 1;
     }
 
     private void DragPiece()
@@ -228,25 +176,19 @@ public class PieceScript : MonoBehaviour
         newPosition += offset;
 
         // Update positions of all pieces in the group
-        foreach (var group in pieceGroups)
+        var group = GetGroupContainingPiece(draggingPiece);
+        if (group != null)
         {
-            if (group.Contains(draggingPiece))
+            for (int i = 0; i < group.Count; i++)
             {
-                for (int i = 0; i < group.Count; i++)
+                if (group[i] is Transform piece)
                 {
-                    if (group[i] is Transform piece)
-                    {
-                        Vector3 newPiecePosition = newPosition + initialGroupOffsets[i];
-                        //newPiecePosition.z = initialZ;
-                        piece.position = newPiecePosition;
-                        //piece.position += Vector3.back;
-                    }
+                    Vector3 newPiecePosition = newPosition + initialGroupOffsets[i];
+                    piece.position = newPiecePosition;
                 }
-                break;
             }
         }
     }
-
     private string AreCorrectNeighbors(Transform piece1, Transform piece2)
     {
         // Assuming piece names are in the format "Piece X" where X is the piece index
@@ -301,18 +243,9 @@ public class PieceScript : MonoBehaviour
         float tolerance = 0.1f;
 
         List<UnityEngine.Object> currentGroup = null;
-        List<UnityEngine.Object> pieceGroup = null;
-        List<List<UnityEngine.Object>> groupsToMerge = new List<List<UnityEngine.Object>>();
-
-        // Find the group that contains the piece
-        foreach (var group in pieceGroups)
-        {
-            if (group.Contains(piece))
-            {
-                pieceGroup = group;
-                break;
-            }
-        }
+        List<UnityEngine.Object> pieceGroup = GetGroupContainingPiece(piece);
+        //List<List<UnityEngine.Object>> groupsToMerge = new List<List<UnityEngine.Object>>();
+        bool foundGroupToMerge = false;
 
         foreach (var group in pieceGroups)
         {
@@ -321,12 +254,16 @@ public class PieceScript : MonoBehaviour
                 if (groupPiece is Transform groupPieceTransform)
                 {
                     string side = GetTouchingSide(piece, groupPieceTransform, pieceWidth, pieceHeight, tolerance);
-                    if (side != "None")
+                    if (side != "None" && !foundGroupToMerge)
                     {
                         if (side != AreCorrectNeighbors(piece, groupPieceTransform))
                         {
                             continue;
                         }
+                        // print name of the piece that has been placed
+                        Debug.Log("Piece placed: " + piece.name);
+                        // print name of the piece that it is touching
+                        Debug.Log("Piece touching: " + groupPieceTransform.name);
                         // if not part of the same group, align
                         if (pieceGroup != null && !pieceGroup.Contains(groupPieceTransform))
                         {
@@ -338,26 +275,23 @@ public class PieceScript : MonoBehaviour
                         }
                         else if (currentGroup != group)
                         {
-                            groupsToMerge.Add(group);
-                            // Merge groups
-                            foreach (var group1 in groupsToMerge)
+                            foreach (var groupPiece1 in group)
                             {
-                                foreach (var groupPiece1 in group1)
+                                if (!currentGroup.Contains(groupPiece1))
                                 {
-                                    if (!currentGroup.Contains(groupPiece1))
-                                    {
-                                        currentGroup.Add(groupPiece1);
-                                    }
+                                    currentGroup.Add(groupPiece1);
                                 }
-                                pieceGroups.Remove(group1);
                             }
+                            pieceGroups.Remove(group);
+                            foundGroupToMerge = true;
                             break;
                         }
                     }
                 }
             }
             // if groupsToMerge is not empty, we have already merged the groups
-            if (groupsToMerge.Count > 0)
+            //if (groupsToMerge.Count > 0)
+            if (foundGroupToMerge)
             {
                 Debug.Log("Merged groups");
                 break;
