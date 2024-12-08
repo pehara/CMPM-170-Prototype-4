@@ -11,11 +11,12 @@ public class PieceGenerator : MonoBehaviour
     [SerializeField] private Texture2D puzzleTexture;
     [SerializeField] private Transform puzzlePieceHolder;
     [SerializeField] private Transform piecePrefab;
+    [SerializeField] private GridSystem gridSystem;
 
     private List<Transform> pieces;
     private Vector2Int dimensions;
-    private float width;
-    private float height; 
+    private float pieceWidth;
+    private float pieceHeight;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,50 +27,43 @@ public class PieceGenerator : MonoBehaviour
         // calculate size of each piece based on dimensions
         dimensions = GetDimensions(puzzleTexture, difficulty);
 
-        // split up image into movable pieces
-        CreateJigsawPieces(puzzleTexture);
+        pieceHeight = 1f / dimensions.y;
+        float aspect = (float)puzzleTexture.width / puzzleTexture.height;
+        pieceWidth = aspect / dimensions.x;
 
-        // scatter pieces randomly across visible screen
+        Debug.Log($"Piece width: {pieceWidth}, Piece height: {pieceHeight}");
+        Debug.Log($"Grid dimensions: {dimensions.x}x{dimensions.y}");
+
+        // Pieces are generated relative to the fixed grid
+        CreateJigsawPieces(puzzleTexture);
         ScatterPieces();
     }
 
-// Helper Functions --------------
-    // Determines number of pieces per given texture
-    Vector2Int GetDimensions(Texture2D puzzleTexture, int difficulty) {
-        Vector2Int dimensions = Vector2Int.zero;
-
-        // difficulty is the number of pieces cut across either the x or y axis, depending on which is smaller.
-        // helps ensure the pieces are as square as possible.
-        if (puzzleTexture.width < puzzleTexture.height) {
-            dimensions.x = difficulty;
-            dimensions.y = (difficulty * puzzleTexture.height) / puzzleTexture.width;
-        } else {
-            dimensions.x = (difficulty * puzzleTexture.width) / puzzleTexture.height;
-            dimensions.y = difficulty;
+    Vector2Int GetDimensions(Texture2D texture, int diff)
+    {
+        Vector2Int dims = Vector2Int.zero;
+        if (texture.width < texture.height)
+        {
+            dims.x = diff;
+            dims.y = (diff * texture.height) / texture.width;
         }
-        return dimensions;
+        else
+        {
+            dims.x = (diff * texture.width) / texture.height;
+            dims.y = diff;
+        }
+        return dims;
     }
 
-    // Create all the jigsaw pieces
-    void CreateJigsawPieces(Texture2D puzzleTexture) {
-        // calculate piece sizes based on the dimensions
-        height = 1f / dimensions.y;
-        float aspect = (float)puzzleTexture.width / puzzleTexture.height;
-        width = aspect / dimensions.x;
-
-        // iterate over rows and columns
-        for (int row = 0; row < dimensions.y; row++) {
-            for (int col = 0; col < dimensions.x; col++) {
-                
-                // create the piece in the right location of the right size.
+    void CreateJigsawPieces(Texture2D texture)
+    {
+        for (int row = 0; row < dimensions.y; row++)
+        {
+            for (int col = 0; col < dimensions.x; col++)
+            {
                 Transform piece = Instantiate(piecePrefab, puzzlePieceHolder);
-                piece.localPosition = new Vector3(
-                    (-width * dimensions.x / 2) + (width * col) + (width / 2),
-                    (-height * dimensions.y / 2) + (height * row) + (height / 2),
-                    -1);
-                piece.localScale = new Vector3(width, height, 1f);
-
-                // name each piece programmatically to show up in the Scene View
+                piece.position = gridSystem.GetWorldPosition(col, row); // Align pieces with grid
+                piece.localScale = new Vector3(pieceWidth, pieceHeight, 1f);
                 piece.name = $"Piece {(row * dimensions.x) + col}";
                 pieces.Add(piece);
 
@@ -87,34 +81,26 @@ public class PieceGenerator : MonoBehaviour
                 // assign our new UVs to the mesh.
                 Mesh mesh = piece.GetComponent<MeshFilter>().mesh;
                 mesh.uv = uv;
-                // update the texture on the piece
-                piece.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", puzzleTexture);
+                piece.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", texture);
+
+                piece.GetComponent<PieceScript>().Initialize(gridSystem, new Vector2Int(col, row));
             }
-        }   
+        }
     }
 
     private void ScatterPieces() {
         // calculate the visible orthographic size of the screen.
         float orthoHeight = Camera.main.orthographicSize;
         float screenAspect = (float)Screen.width / Screen.height;
-        float orthoWidth = (screenAspect * orthoHeight);
+        float orthoWidth = screenAspect * orthoHeight;
 
-        // ensure pieces are away from the edges
-        float pieceWidth = width * puzzlePieceHolder.localScale.x;
-        float pieceHeight = height * puzzlePieceHolder.localScale.y;
-
-        // adjust dimensions of camera view to exclude a border that ensures pieces will be in view
-        orthoHeight -= pieceHeight;
-        orthoWidth -= pieceWidth;
-
-        // place each piece randomly in the visible area, and randomize the rotation
-        foreach (Transform piece in pieces) {
+        foreach (Transform piece in pieces)
+        {
             float x = Random.Range(-orthoWidth, orthoWidth);
             float y = Random.Range(-orthoHeight, orthoHeight);
-            piece.position = new Vector3(x, y, -1);
-
-            List<int> possibleAngles = new List<int>() {0, 90, -180, -90};
-            int z = possibleAngles[Random.Range(0, possibleAngles.Count - 1)];
+            piece.position = new Vector3(x, y, piece.position.z); // Maintain Z-axis
+            List<int> possibleAngles = new List<int>() { 0, 90, 180, 270 };
+            int z = possibleAngles[Random.Range(0, possibleAngles.Count)];
             piece.eulerAngles = new Vector3(0, 0, z);
         }
     }
