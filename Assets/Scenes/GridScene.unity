@@ -214,7 +214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &562934999
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -553,6 +553,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1463563400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1463563402}
+  - component: {fileID: 1463563403}
+  m_Layer: 0
+  m_Name: PieceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1463563402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463563400}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.8036287, y: -0.522614, z: 0.03509775}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1463563403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463563400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58858f46068ada44a95b9a2e17ccc2f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  piecesEnabled: 1
 --- !u!114 &1590995086 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8274651213096915513, guid: 212eb381328eebb43a91ab0387c9389c, type: 3}
@@ -575,6 +620,7 @@ GameObject:
   - component: {fileID: 1806309796}
   - component: {fileID: 1806309795}
   - component: {fileID: 1806309797}
+  - component: {fileID: 1806309798}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -594,11 +640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da080d07fa455424abadada337d63d5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 4
-  puzzleTexture: {fileID: 2800000, guid: 8f2b91908bd6ca240aafa2b551d86cc0, type: 3}
-  puzzlePieceHolder: {fileID: 1205867010}
-  piecePrefab: {fileID: 8331903571314150889, guid: 51a642bd564dc274fa5ed0a00526d1ac, type: 3}
-  gridSystem: {fileID: 1953949778}
 --- !u!4 &1806309796
 Transform:
   m_ObjectHideFlags: 0
@@ -631,6 +672,23 @@ MonoBehaviour:
   highscore1Text: {fileID: 1590995086}
   highscore2Text: {fileID: 1385274153}
   highscore3Text: {fileID: 818569102}
+--- !u!114 &1806309798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806309794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d3b63bcd9edd04c95a9b4de03cac15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficulty: 4
+  puzzleTexture: {fileID: 2800000, guid: 8f2b91908bd6ca240aafa2b551d86cc0, type: 3}
+  puzzlePieceHolder: {fileID: 1205867010}
+  pieceManager: {fileID: 1463563400}
+  piecePrefab: {fileID: 8331903571314150889, guid: 51a642bd564dc274fa5ed0a00526d1ac, type: 3}
 --- !u!224 &1923300632 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5484747161929183421, guid: 212eb381328eebb43a91ab0387c9389c, type: 3}
@@ -864,7 +922,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5484747161929183421, guid: 212eb381328eebb43a91ab0387c9389c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 27.409912
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5484747161929183421, guid: 212eb381328eebb43a91ab0387c9389c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1006,5 +1064,6 @@ SceneRoots:
   - {fileID: 1205867010}
   - {fileID: 562935000}
   - {fileID: 1806309796}
+  - {fileID: 1463563402}
   - {fileID: 1953949779}
   - {fileID: 987916187}

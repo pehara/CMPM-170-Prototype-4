@@ -6,7 +6,7 @@ public class GridScript : MonoBehaviour
     private Vector3 offset;
     private float rotation;
     private bool isDragging = false;
-    
+
     private GridSystem gridSystem;
     private Vector2Int correctPosition; // Correct grid position for this piece
     private bool isLocked = false; // Track if the piece is locked in place
@@ -16,6 +16,19 @@ public class GridScript : MonoBehaviour
     {
         this.gridSystem = gridSystem;
         this.correctPosition = correctPosition;
+    }
+
+    private void Awake()
+    {
+        // Dynamically find the GridSystem if not assigned
+        if (gridSystem == null)
+        {
+            gridSystem = FindObjectOfType<GridSystem>();
+            if (gridSystem == null)
+            {
+                Debug.LogError("GridSystem not found! Please assign it in the Inspector.");
+            }
+        }
     }
 
     void Update()
@@ -58,6 +71,12 @@ public class GridScript : MonoBehaviour
 
     private void SnapToGrid()
     {
+        if (gridSystem == null)
+        {
+            Debug.LogError("GridSystem is not assigned. Cannot snap to grid.");
+            return;
+        }
+
         Vector3Int gridPosition = gridSystem.GetGridPosition(transform.position);
         Vector3 snappedPosition = gridSystem.GetWorldPosition(gridPosition.x, gridPosition.y);
 
@@ -79,6 +98,6 @@ public class GridScript : MonoBehaviour
     private void LockPiece()
     {
         isLocked = true; // Prevent further movement or rotation
-        // gridSystem.LockPiece(correctPosition);
+        gridSystem.LockPiece(correctPosition); // Notify the grid system
     }
 }
