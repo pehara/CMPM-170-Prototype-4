@@ -1103,7 +1103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1806309796}
-  - component: {fileID: 1806309795}
+  - component: {fileID: 1806309799}
   - component: {fileID: 1806309797}
   - component: {fileID: 1806309798}
   m_Layer: 0
@@ -1113,23 +1113,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1806309795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1806309794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da080d07fa455424abadada337d63d5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  difficulty: 4
-  puzzleTexture: {fileID: 2800000, guid: 8f2b91908bd6ca240aafa2b551d86cc0, type: 3}
-  puzzlePieceHolder: {fileID: 1205867010}
-  pieceManager: {fileID: 634957006}
-  piecePrefab: {fileID: 8331903571314150889, guid: 73d852ce053b9bd49bf9d3d8f619e7a4, type: 3}
 --- !u!4 &1806309796
 Transform:
   m_ObjectHideFlags: 0
@@ -1180,6 +1163,23 @@ MonoBehaviour:
   transparencies: []
   dirtPrefab: {fileID: 1661785343633482425, guid: c2ca6ca8c48f2d042b1ccc11af9bc0ee, type: 3}
   digEnabled: 0
+--- !u!114 &1806309799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806309794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d3b63bcd9edd04c95a9b4de03cac15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficulty: 4
+  puzzleTexture: {fileID: 2800000, guid: 8f2b91908bd6ca240aafa2b551d86cc0, type: 3}
+  puzzlePieceHolder: {fileID: 1205867010}
+  pieceManager: {fileID: 634957006}
+  piecePrefab: {fileID: 8331903571314150889, guid: 73d852ce053b9bd49bf9d3d8f619e7a4, type: 3}
 --- !u!1 &1930070050
 GameObject:
   m_ObjectHideFlags: 0

@@ -2497,7 +2497,7 @@ MonoBehaviour:
   difficulty: 4
   puzzleTexture: {fileID: 2800000, guid: 8f2b91908bd6ca240aafa2b551d86cc0, type: 3}
   puzzlePieceHolder: {fileID: 1205867010}
-  piecePrefab: {fileID: 8331903571314150889, guid: 73d852ce053b9bd49bf9d3d8f619e7a4, type: 3}
+  piecePrefab: {fileID: 8331903571314150889, guid: 51a642bd564dc274fa5ed0a00526d1ac, type: 3}
   gridSystem: {fileID: 1953949778}
 --- !u!4 &1806309796
 Transform:
