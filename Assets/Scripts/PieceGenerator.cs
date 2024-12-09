@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class PieceGenerator : MonoBehaviour
     [SerializeField] private int difficulty = 4;
     [SerializeField] private Texture2D puzzleTexture;
     [SerializeField] private Transform puzzlePieceHolder;
+    [SerializeField] private Object pieceManager;
     [SerializeField] private Transform piecePrefab;
     [SerializeField] private GridSystem gridSystem;
 
@@ -37,6 +39,10 @@ public class PieceGenerator : MonoBehaviour
         // Pieces are generated relative to the fixed grid
         CreateJigsawPieces(puzzleTexture);
         ScatterPieces();
+
+
+        // Initialize pieces in PieceScript
+        pieceManager.GetComponent<PieceScript>().InitializePieces(pieces);
     }
 
     Vector2Int GetDimensions(Texture2D texture, int diff)
