@@ -35,9 +35,20 @@ public class UiScript : MonoBehaviour
         }
     }
     // Start the game by loading the puzzle scene
-    public void StartGame()
+    public void StartGridGame()
     {
-        SceneManager.LoadScene("PuzzleScene");
+        // StartScene = 0
+        // GridScene = 1
+        // FreeformScene = 2
+        SceneManager.LoadScene(1);
+    }
+
+    public void StartFreeformGame()
+    {
+        // StartScene = 0
+        // GridScene = 1
+        // FreeformScene = 2
+        SceneManager.LoadScene(2);
     }
     
     // Pause the game
@@ -66,7 +77,7 @@ public class UiScript : MonoBehaviour
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1; // Ensure the game isn't paused when returning
-        SceneManager.LoadScene("StartScene");
+        SceneManager.LoadScene(0);
     }
 
     // Add a score when the player completes the puzzle
