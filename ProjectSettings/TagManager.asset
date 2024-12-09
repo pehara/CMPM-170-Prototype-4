@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Rock
   - Trash
+  - Dirt
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Dirt
   - Water
   - UI
   - 
