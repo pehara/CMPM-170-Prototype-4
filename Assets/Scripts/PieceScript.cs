@@ -11,6 +11,7 @@ public class PieceScript : MonoBehaviour
     private List<Vector3> initialGroupOffsets = new List<Vector3>();
     public List<List<UnityEngine.Object>> pieceGroups = new List<List<UnityEngine.Object>>();
     private float initialZ;
+    public bool piecesEnabled = true;
 
     void Start()
     {
@@ -32,104 +33,118 @@ public class PieceScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (hit && hit.transform.tag != "Rock")
+        if (piecesEnabled) {
+            if (Input.GetMouseButtonDown(0))
             {
-                draggingPiece = hit.transform;
-                offset = draggingPiece.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                offset += Vector3.back;
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+                if (hit && hit.transform.tag != "Rock" && hit.transform.tag != "Dirt")
+                {
+                    draggingPiece = hit.transform;
+                    offset = draggingPiece.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    offset += Vector3.back;
 
-                // Calculate initial offsets for the group when dragging one piece
-                initialGroupOffsets.Clear();
+                    // Calculate initial offsets for the group when dragging one piece
+                    initialGroupOffsets.Clear();
+                    var group = GetGroupContainingPiece(draggingPiece);
+                    if (group != null)
+                    {
+                        foreach (var piece in group)
+                        {
+                            if (piece is Transform pieceTransform)
+                            {
+                                initialGroupOffsets.Add(pieceTransform.position - new Vector3(draggingPiece.position.x, draggingPiece.position.y, 0));
+                                pieceTransform.position += Vector3.back;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Dragging piece not found in any group");
+                    }
+                }
+            }
+
+            if (draggingPiece && Input.GetMouseButtonUp(0))
+            {
+                draggingPiece.position = new Vector3(draggingPiece.position.x, draggingPiece.position.y, initialZ);
                 var group = GetGroupContainingPiece(draggingPiece);
                 if (group != null)
                 {
                     foreach (var piece in group)
                     {
-                        if (piece is Transform pieceTransform)
+                        if (piece is Transform pieceTransform && pieceTransform != draggingPiece)
                         {
-                            initialGroupOffsets.Add(pieceTransform.position - new Vector3(draggingPiece.position.x, draggingPiece.position.y, 0));
-                            pieceTransform.position += Vector3.back;
+                            pieceTransform.position = new Vector3(pieceTransform.position.x, pieceTransform.position.y, initialZ);
                         }
                     }
                 }
-                else
-                {
-                    Debug.LogWarning("Dragging piece not found in any group");
-                }
+                checkPiecePlacement(draggingPiece);
+                draggingPiece = null;
             }
-        }
 
-        if (draggingPiece && Input.GetMouseButtonUp(0))
-        {
-            draggingPiece.position = new Vector3(draggingPiece.position.x, draggingPiece.position.y, initialZ);
-            var group = GetGroupContainingPiece(draggingPiece);
-            if (group != null)
+            if (draggingPiece)
             {
-                foreach (var piece in group)
+                DragPiece();
+            }
+
+            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+                if (hit && hit.transform.tag != "Rock" && hit.transform.tag != "Dirt")
                 {
-                    if (piece is Transform pieceTransform && pieceTransform != draggingPiece)
+                    if (IsPieceInGroupWithMoreThanOne(hit.transform))
                     {
-                        pieceTransform.position = new Vector3(pieceTransform.position.x, pieceTransform.position.y, initialZ);
+                        return;
                     }
+                    rotation = hit.transform.eulerAngles.z;
+                    hit.transform.eulerAngles = new Vector3(0, 0, NormalizeAngle(rotation + 90));
                 }
             }
-            checkPiecePlacement(draggingPiece);
-            draggingPiece = null;
-        }
 
-        if (draggingPiece)
-        {
-            DragPiece();
-        }
-
-        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (hit && hit.transform.tag != "Rock")
+            if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                if (IsPieceInGroupWithMoreThanOne(hit.transform))
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+                if (hit && hit.transform.tag != "Rock" && hit.transform.tag != "Dirt")
                 {
-                    return;
-                }
-                rotation = hit.transform.eulerAngles.z;
-                hit.transform.eulerAngles = new Vector3(0, 0, NormalizeAngle(rotation + 90));
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (hit && hit.transform.tag != "Rock")
-            {
-                if (IsPieceInGroupWithMoreThanOne(hit.transform))
-                {
-                    return;
-                }
-                rotation = hit.transform.eulerAngles.z;
-                hit.transform.eulerAngles = new Vector3(0, 0, NormalizeAngle(rotation - 90));
-            }
-        }
-
-        if (Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space))
-        {
-            // Print the contents of pieceGroups
-            foreach (var group in pieceGroups)
-            {
-                string groupContents = "Group: ";
-                foreach (var piece in group)
-                {
-                    if (piece is Transform pieceTransform)
+                    if (IsPieceInGroupWithMoreThanOne(hit.transform))
                     {
-                        groupContents += pieceTransform.name + " ";
+                        return;
                     }
+                    rotation = hit.transform.eulerAngles.z;
+                    hit.transform.eulerAngles = new Vector3(0, 0, NormalizeAngle(rotation - 90));
                 }
-                Debug.Log(groupContents);
+            }
+
+            if (Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space))
+            {
+                // Print the contents of pieceGroups
+                foreach (var group in pieceGroups)
+                {
+                    string groupContents = "Group: ";
+                    foreach (var piece in group)
+                    {
+                        if (piece is Transform pieceTransform)
+                        {
+                            groupContents += pieceTransform.name + " ";
+                        }
+                    }
+                    Debug.Log(groupContents);
+                }
             }
         }
     }
+
+    public void enablePieceMode() 
+    {
+        piecesEnabled = true;
+        
+    }
+
+    public void disablePieceMode() 
+    {
+        piecesEnabled = false;
+    }
+
     private float NormalizeAngle(float angle)
     {
         angle = angle % 360;
