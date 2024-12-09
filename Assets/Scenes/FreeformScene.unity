@@ -119,6 +119,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &98240476 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8957398007041405543, guid: 212eb381328eebb43a91ab0387c9389c, type: 3}
+  m_PrefabInstance: {fileID: 1236014690}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &502761299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -855,6 +866,52 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5147743945714958308, guid: ca089554fcdf100439453241663fbfc6, type: 3}
   m_PrefabInstance: {fileID: 4901860121792435145}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1399977621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1399977623}
+  - component: {fileID: 1399977622}
+  m_Layer: 0
+  m_Name: HintManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1399977622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399977621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc443939fe88d645b2afa29db392cac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sentence: Deer walks away from tree leaving a trail.
+  hintText: {fileID: 98240476}
+--- !u!4 &1399977623
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399977621}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.56744385, y: -0.19140625, z: 0.016821023}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1806309794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1382,7 +1439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8893187035686987695, guid: a8f97f58041dc564e9e45cd526ca1438, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 394
+      value: 307
       objectReference: {fileID: 0}
     - target: {fileID: 8893187035686987695, guid: a8f97f58041dc564e9e45cd526ca1438, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1413,3 +1470,4 @@ SceneRoots:
   - {fileID: 1806309796}
   - {fileID: 634957007}
   - {fileID: 804606526}
+  - {fileID: 1399977623}

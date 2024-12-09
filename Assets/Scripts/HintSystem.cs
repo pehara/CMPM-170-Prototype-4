@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 public class HintSystem : MonoBehaviour
 {
-    public string sentence = "Tree footprints from leaving walks deer trail away."; // The full sentence
+    public string sentence = "Deer walks away from tree leaving a trail."; // The full sentence
     public TMP_Text hintText; // Reference to the TextMeshPro UI Text
 
     private List<string> words; // Split words from the sentence
     private int revealedWordCount = 0; // Track how many words have been revealed
-    private float revealInterval = 5f; // Time interval in seconds
+    private float revealInterval = 15f; // Time interval in seconds
     private float timer = 0f; // Timer to track time
 
     void Start()
